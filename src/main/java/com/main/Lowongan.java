@@ -79,8 +79,25 @@ public class Lowongan {
 
     public void addLowongan(ArrayList<Lowongan> daftarLowongan){
         try(Scanner scanner = new Scanner(System.in)){
-            System.out.println("Masukkan ID\t:");
-            scanner.nextInt()
+            System.out.println("Masukkan ID Lowongan: ");
+            int id = scanner.nextInt();
+
+            System.out.println("Masukkan judul baru\t");
+            String newJudul = scanner.nextLine();
+                                
+            System.out.println("Masukkan syarat baru\t");
+            String newSyarat = scanner.nextLine();
+                                
+            System.out.println("Masukkan deskripsi baru\t");
+            String newDesk = scanner.nextLine();
+                
+            System.out.println("Masukkan jumlah karyawan diterima\t");
+            int newJKaryawan = scanner.nextInt();
+                
+            Lowongan newLowongan = new Lowongan(id, newJudul, newSyarat, newDesk, newJKaryawan); 
+            System.out.println("Lowongan pekerjaan dengan id " + id + "berhasil ditambahkan."); 
+        }catch(Exception e){
+            System.out.println("Terjadi kesalahan input :" + e.getMessage());
         }
     }  
     public void showLowongan(){

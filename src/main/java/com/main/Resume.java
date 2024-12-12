@@ -13,20 +13,16 @@ public class Resume {
         this.pengalaman = pengalaman;
     }
 
-    public void membuatResume() {
-        System.out.println("\n=== Resume ===");
-        System.out.println("ID: " + idDokumen);
-        System.out.println("Pendidikan: " + pendidikan.getEducation());
-        System.out.println("Skill: " + skill.getSkillDetail());
-        System.out.println("Pengalaman: " + pengalaman.getPengalamanLengkap());
-        System.out.println("=====================");
-    }
-    
     public int getIdDokumen() {
         return idDokumen;
     }
-    
-    public void setIdDokumen(int idDokumen) {
-        this.idDokumen = idDokumen;
+
+    public void membuatResume() {
+        System.out.println("\n=== Resume ===");
+        System.out.println("ID Dokumen: " + idDokumen);
+        System.out.println("Pendidikan: " + pendidikan.getEducation());
+        System.out.println("Skill: " + skill.getSkillDetail());
+        System.out.println("Pengalaman: " + pengalaman.getPengalamanLengkap());
+
     }
 }
