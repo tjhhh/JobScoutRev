@@ -1,11 +1,15 @@
 package com.main;
 
 import java.util.ArrayList;
-public class abstract Pelamar extends Pengguna{
+import java.util.Scanner;
+
+public class Pelamar extends Pengguna {
     private int NIK;
     private int noHp;
     private int tglLahir;
     private int idDokumen;
+    private ArrayList<Resume> daftarResume; // Menyimpan daftar resume milik pelamar
+    private ArrayList<Lamaran> daftarLamaran;
 
     public Pelamar(int NIK, int noHp, int tglLahir, int idDokumen, int idPengguna, String username, String password, int follower, int following) {
         super(idPengguna, username, password, follower, following);
@@ -13,8 +17,11 @@ public class abstract Pelamar extends Pengguna{
         this.noHp = noHp;
         this.tglLahir = tglLahir;
         this.idDokumen = idDokumen;
+        this.daftarResume = new ArrayList<>();
+        this.daftarLamaran = new ArrayList<>(); // Inisialisasi daftar lamaran
     }
 
+    // Getter dan Setter
     public int getNIK() {
         return NIK;
     }
@@ -47,179 +54,184 @@ public class abstract Pelamar extends Pengguna{
         this.idDokumen = idDokumen;
     }
 
-    public void addPendidikan(Pendidikan pendidikan){
-        this.resume.getPendidikanList().add(pendidikan);
+    public ArrayList<Resume> getDaftarResume() {
+        return daftarResume;
     }
 
-    public void addPengalaman(Pengalaman pengalaman) {
-        this.resume.getPengalamanList().add(pengalaman);
-    }
-    public void createProfile(Pendidikan pendidikan){
+    // Menambahkan resume baru
+    public void addResume() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Masukkan informasi pelamar:");
-        System.out.print("NIK: ");
-        this.NIK = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
-        System.out.print("No HP: ");
-        this.noHP = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
-        System.out.print("Tanggal Lahir (yyyy-mm-dd): ");
-        this.tglLahir = scanner.nextLine();
-        System.out.print("ID Dokumen: ");
-        this.idDokumen = scanner.nextInt();
+        System.out.println("Masukkan ID Dokumen: ");
+        int idDokumen = scanner.nextInt();
+        scanner.nextLine(); // Menangani nextLine setelah nextInt
 
-        System.out.println("\nTambahkan informasi pendidikan:");
-        System.out.print("Nama Sekolah: ");
-        String school = scanner.next();
-        System.out.print("Gelar: ");
-        String degree = scanner.next();
-        System.out.print("Bidang Studi: ");
-        String fieldOfStudy = scanner.next();
-        System.out.print("Tanggal Mulai: ");
-        String startDate = scanner.next();
-        System.out.print("Tanggal Selesai: ");
-        String endDate = scanner.next();
+        // Input Skill
+        System.out.println("Masukkan Skill: ");
+        String skillName = scanner.nextLine();
+        System.out.println("Masukkan Tingkatan Skill: ");
+        String tingkatanLevel = scanner.nextLine();
+        Skill skill = new Skill(skillName, tingkatanLevel);
 
-        // Tambahkan pendidikan ke resume
+        // Input Pendidikan
+        System.out.println("Masukkan Nama Sekolah: ");
+        String school = scanner.nextLine();
+        System.out.println("Masukkan Gelar: ");
+        String degree = scanner.nextLine();
+        System.out.println("Masukkan Jurusan: ");
+        String fieldOfStudy = scanner.nextLine();
+        System.out.println("Masukkan Tanggal Mulai (yyyy-mm-dd): ");
+        String startDate = scanner.nextLine();
+        System.out.println("Masukkan Tanggal Selesai (yyyy-mm-dd): ");
+        String endDate = scanner.nextLine();
         Pendidikan pendidikan = new Pendidikan(school, degree, fieldOfStudy, startDate, endDate);
-        this.resume.getPendidikanList().add(pendidikan);
 
-        System.out.println("\nTambahkan informasi pengalaman:");
-        System.out.print("Posisi: ");
-        String position = scanner.next();
-        System.out.print("Perusahaan: ");
-        String company = scanner.next();
-        System.out.print("Tanggal Mulai: ");
-        String startExpDate = scanner.next();
-        System.out.print("Tanggal Selesai: ");
-        String endExpDate = scanner.next();
-        System.out.print("Deskripsi: ");
-        scanner.nextLine(); // Consume newline
+        // Input Pengalaman
+        System.out.println("Masukkan Posisi: ");
+        String position = scanner.nextLine();
+        System.out.println("Masukkan Nama Perusahaan: ");
+        String company = scanner.nextLine();
+        System.out.println("Masukkan Tanggal Mulai (yyyy-mm-dd): ");
+        String expStartDate = scanner.nextLine();
+        System.out.println("Masukkan Tanggal Selesai (yyyy-mm-dd): ");
+        String expEndDate = scanner.nextLine();
+        System.out.println("Masukkan Deskripsi Pengalaman: ");
         String description = scanner.nextLine();
+        Pengalaman pengalaman = new Pengalaman(position, company, expStartDate, expEndDate, description);
 
-        // Tambahkan pengalaman ke resume
-        Pengalaman pengalaman = new Pengalaman(position, company, startExpDate, endExpDate, description);
-        this.resume.getPengalamanList().add(pengalaman);
+        // Membuat resume dan menambahkannya ke daftar
+        Resume resume = new Resume(idDokumen, skill, pendidikan, pengalaman);
+        daftarResume.add(resume);
 
-        System.out.println("Profil berhasil dibuat!");
+        System.out.println("Resume berhasil ditambahkan!");
     }
-    public void editProfile(){
+
+    // Mengubah informasi resume
+    public void editResume(int idDokumen) {
         Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Edit Profil Pelamar:");
-        System.out.println("1. Edit Informasi Pribadi");
-        System.out.println("2. Edit Pendidikan");
-        System.out.println("3. Edit Pengalaman");
-        System.out.println("4. Edit Skill");
-        System.out.print("Pilih opsi: ");
-        int choice = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
-
-        switch (choice) {
-            case 1:
-                // Edit informasi pribadi
-                System.out.print("Masukkan NIK baru: ");
-                this.NIK = scanner.nextInt();
-                scanner.nextLine();
-                System.out.print("Masukkan No HP baru: ");
-                this.noHP = scanner.nextInt();
-                scanner.nextLine();
-                System.out.print("Masukkan Tanggal Lahir baru (yyyy-mm-dd): ");
-                this.tglLahir = scanner.nextLine();
-                System.out.println("Informasi pribadi berhasil diperbarui.");
-                break;
-
-            case 2:
-                // Edit pendidikan
-                System.out.println("Pendidikan saat ini:");
-                int i = 1;
-                for (Pendidikan p : this.resume.getPendidikanList()) {
-                    System.out.println(i + ". " + p);
-                    i++;
-                }
-                System.out.print("Pilih pendidikan yang ingin diedit (nomor): ");
-                int pendidikanIndex = scanner.nextInt() - 1;
-                scanner.nextLine(); // Consume newline
-
-                if (pendidikanIndex >= 0 && pendidikanIndex < this.resume.getPendidikanList().size()) {
-                    Pendidikan pendidikan = this.resume.getPendidikanList().get(pendidikanIndex);
-                    System.out.print("Nama Sekolah baru: ");
-                    pendidikan.setSchool(scanner.nextLine());
-                    System.out.print("Gelar baru: ");
-                    pendidikan.setDegree(scanner.nextLine());
-                    System.out.print("Bidang Studi baru: ");
-                    pendidikan.setFieldOfStudy(scanner.nextLine());
-                    System.out.print("Tanggal Mulai baru: ");
-                    pendidikan.setStartDate(scanner.nextLine());
-                    System.out.print("Tanggal Selesai baru: ");
-                    pendidikan.setEndDate(scanner.nextLine());
-                    System.out.println("Pendidikan berhasil diperbarui.");
-                } else {
-                    System.out.println("Pendidikan tidak ditemukan.");
-                }
-                break;
-
-            case 3:
-                // Edit pengalaman
-                System.out.println("Pengalaman saat ini:");
-                i = 1;
-                for (Pengalaman p : this.resume.getPengalamanList()) {
-                    System.out.println(i + ". " + p);
-                    i++;
-                }
-                System.out.print("Pilih pengalaman yang ingin diedit (nomor): ");
-                int pengalamanIndex = scanner.nextInt() - 1;
-                scanner.nextLine(); // Consume newline
-
-                if (pengalamanIndex >= 0 && pengalamanIndex < this.resume.getPengalamanList().size()) {
-                    Pengalaman pengalaman = this.resume.getPengalamanList().get(pengalamanIndex);
-                    System.out.print("Posisi baru: ");
-                    pengalaman.setPosition(scanner.nextLine());
-                    System.out.print("Perusahaan baru: ");
-                    pengalaman.setCompany(scanner.nextLine());
-                    System.out.print("Tanggal Mulai baru: ");
-                    pengalaman.setStartDate(scanner.nextLine());
-                    System.out.print("Tanggal Selesai baru: ");
-                    pengalaman.setEndDate(scanner.nextLine());
-                    System.out.print("Deskripsi baru: ");
-                    pengalaman.setDescription(scanner.nextLine());
-                    System.out.println("Pengalaman berhasil diperbarui.");
-                } else {
-                    System.out.println("Pengalaman tidak ditemukan.");
-                }
-                break;
-
-            case 4:
-                // Edit skill
-                System.out.println("Skill saat ini:");
-                i = 1;
-                for (Skill s : this.resume.getSkillList()) {
-                    System.out.println(i + ". " + s);
-                    i++;
-                }
-                System.out.print("Pilih skill yang ingin diedit (nomor): ");
-                int skillIndex = scanner.nextInt() - 1;
-                scanner.nextLine(); // Consume newline
-
-                if (skillIndex >= 0 && skillIndex < this.resume.getSkillList().size()) {
-                    Skill skill = this.resume.getSkillList().get(skillIndex);
-                    System.out.print("Nama Skill baru: ");
-                    skill.setSkillName(scanner.nextLine());
-                    System.out.print("Level baru: ");
-                    skill.setTingkatanLevel(scanner.nextLine());
-                    System.out.println("Skill berhasil diperbarui.");
-                } else {
-                    System.out.println("Skill tidak ditemukan.");
-                }
-                break;
-
-            default:
-                System.out.println("Opsi tidak valid.");
+        Resume resumeToEdit = null;
+        boolean resumeFound = false;
+    
+        // Mencari resume berdasarkan ID
+        for (Resume resume : daftarResume) {
+            if (resume.getIdDokumen() == idDokumen) {
+                resumeToEdit = resume;
+                resumeFound = true;
+                // Set flag ke true jika resume ditemukan
+            }
+        }
+    
+        // Mengecek apakah resume ditemukan atau tidak
+        if (resumeFound) {
+            // Proses pengeditan
+            System.out.println("Resume ditemukan. Silakan lakukan perubahan:");
+    
+            // Edit Pendidikan
+            System.out.println("Masukkan informasi pendidikan baru:");
+            System.out.println("Sekolah: ");
+            String school = scanner.nextLine();
+            System.out.println("Gelar: ");
+            String degree = scanner.nextLine();
+            System.out.println("Bidang Studi: ");
+            String fieldOfStudy = scanner.nextLine();
+            System.out.println("Tanggal Mulai (format: YYYY-MM-DD): ");
+            String startDate = scanner.nextLine();
+            System.out.println("Tanggal Selesai (format: YYYY-MM-DD): ");
+            String endDate = scanner.nextLine();
+    
+            Pendidikan newPendidikan = new Pendidikan(school, degree, fieldOfStudy, startDate, endDate);
+            resumeToEdit.getEducation().setPendidikan(newPendidikan);  // Update pendidikan
+    
+            // Edit Skill
+            System.out.println("Masukkan informasi skill baru:");
+            System.out.println("Nama Skill: ");
+            String skillName = scanner.nextLine();
+            System.out.println("Tingkatan Level (misal: Beginner, Intermediate, Expert): ");
+            String level = scanner.nextLine();
+    
+            Skill newSkill = new Skill(skillName, level);
+            resumeToEdit.getSkillDetail().setSkill(newSkill);  // Update skill
+    
+            // Edit Pengalaman
+            System.out.println("Masukkan informasi pengalaman baru:");
+            System.out.println("Posisi: ");
+            String position = scanner.nextLine();
+            System.out.println("Perusahaan: ");
+            String company = scanner.nextLine();
+            System.out.println("Tanggal Mulai (format: YYYY-MM-DD): ");
+            String startExp = scanner.nextLine();
+            System.out.println("Tanggal Selesai (format: YYYY-MM-DD): ");
+            String endExp = scanner.nextLine();
+            System.out.println("Deskripsi Pekerjaan: ");
+            String description = scanner.nextLine();
+    
+            Pengalaman newPengalaman = new Pengalaman(position, company, startExp, endExp, description);
+            resumeToEdit.getPengalamanLengkap().setPengalaman(newPengalaman);  // Update pengalaman
+    
+            System.out.println("Resume berhasil diperbarui!");
+        } else {
+            System.out.println("Resume dengan ID " + idDokumen + " tidak ditemukan.");
         }
     }
+    
+
+    // Menghapus resume berdasarkan ID Dokumen
+    public void deleteResume(int idDokumen) {
+        boolean found = false;
+    
+        // Mencari dan menghapus resume berdasarkan ID
+        for (int i = 0; i < daftarResume.size(); i++) {
+            if (daftarResume.get(i).getIdDokumen() == idDokumen) {
+                daftarResume.remove(i);
+                found = true;
+                // Setel flag true jika resume ditemukan dan dihapus
+            }
+        }
+    
+        // Setelah loop selesai, cek apakah resume ditemukan
+        if (found) {
+            System.out.println("Resume dengan ID " + idDokumen + " berhasil dihapus!");
+        } else {
+            System.out.println("Resume dengan ID tersebut tidak ditemukan!");
+        }
     }
     
+
+    // Menampilkan semua resume pelamar
+    public void showResumes() {
+        if (daftarResume.isEmpty()) {
+            System.out.println("Tidak ada resume yang tersedia.");
+        } else {
+            for (Resume resume : daftarResume) {
+                resume.membuatResume();
+            }
+        }
+    }
+    // Method untuk melamar pekerjaan
+    public void applyForJob(Lowongan lowongan) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Cek apakah pelamar memenuhi syarat lowongan
+        if (this.daftarResume.isEmpty()) {
+            System.out.println("Anda belum memiliki resume. Harap buat resume terlebih dahulu.");
+            return;
+        }
+
+        System.out.println("Melamar untuk lowongan: " + lowongan.getJudul());
+        System.out.println("Apakah Anda memenuhi persyaratan lowongan ini? (Y/N)");
+        String response = scanner.nextLine();
+
+        if (response.equalsIgnoreCase("Y")) {
+            Lamaran lamaran = new Lamaran(this, lowongan);
+            daftarLamaran.add(lamaran);
+            System.out.println("Lamaran berhasil diajukan.");
+
+            // Kirim notifikasi ke admin perusahaan
+            Notifikasi notifikasi = new Notifikasi("Notif_" + lamaran.getIdLamaran(), lowongan.getAdminPerusahaan(), "Pelamar dengan NIK " + this.NIK + " telah melamar untuk lowongan " + lowongan.getJudul());
+            lowongan.getAdminPerusahaan().getDaftarNotifikasi().add(notifikasi);  // Menambahkan notifikasi pada admin
+        } else {
+            System.out.println("Anda tidak memenuhi persyaratan atau memilih untuk tidak melamar.");
+        }
+    }
+
 }
-
-
