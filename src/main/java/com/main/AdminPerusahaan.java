@@ -5,6 +5,7 @@ import java.util.Scanner;
 import java.util.Date;
 
 public class AdminPerusahaan extends Pengguna {
+    private String namaPT;
     private int idPerusahaan;
     private int jumlahKaryawan;
     private String bidang;
@@ -13,6 +14,7 @@ public class AdminPerusahaan extends Pengguna {
 
     public AdminPerusahaan(int idPerusahaan, int jumlahKaryawan, String bidang, int idPengguna, String username, String password, int follower, int following) {
         super(idPengguna, username, password, follower, following);
+        this.namaPT = namaPT;
         this.idPerusahaan = idPerusahaan;
         this.jumlahKaryawan = jumlahKaryawan;
         this.bidang = bidang;
@@ -20,6 +22,12 @@ public class AdminPerusahaan extends Pengguna {
         this.daftarEvent = new ArrayList<>();
     }
 
+    public void setNamaPT(String namaPT){
+        this.namaPT = namaPT;
+    }
+    public String getNamaPT(){
+        return namaPT;
+    }
     public int getIdPerusahaan() {
         return idPerusahaan;
     }

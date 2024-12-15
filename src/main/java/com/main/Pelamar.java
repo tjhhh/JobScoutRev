@@ -4,15 +4,19 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Pelamar extends Pengguna {
+    private String nama;
+    private int umur;
     private int NIK;
     private int noHp;
-    private int tglLahir;
+    private String tglLahir;
     private int idDokumen;
     private ArrayList<Resume> daftarResume; // Menyimpan daftar resume milik pelamar
     private ArrayList<Lamaran> daftarLamaran;
 
-    public Pelamar(int NIK, int noHp, int tglLahir, int idDokumen, int idPengguna, String username, String password, int follower, int following) {
+    public Pelamar(String nama,int umur,int NIK, int noHp, String tglLahir, int idDokumen, int idPengguna, String username, String password, int follower, int following) {
         super(idPengguna, username, password, follower, following);
+        this.nama = nama;
+        this.umur = umur;
         this.NIK = NIK;
         this.noHp = noHp;
         this.tglLahir = tglLahir;
@@ -22,6 +26,22 @@ public class Pelamar extends Pengguna {
     }
 
     // Getter dan Setter
+    public void setUmur(int umur){
+        this.umur = umur;
+    }
+    public int getUmur(){
+        return umur;
+    }
+    
+    
+    
+    public String getNama(){
+        return nama;
+    }
+    
+    public void setNama(String nama){
+        this.nama=nama;
+    }
     public int getNIK() {
         return NIK;
     }
@@ -38,11 +58,11 @@ public class Pelamar extends Pengguna {
         this.noHp = noHp;
     }
 
-    public int getTglLahir() {
+    public String getTglLahir() {
         return tglLahir;
     }
 
-    public void setTglLahir(int tglLahir) {
+    public void setTglLahir(String tglLahir) {
         this.tglLahir = tglLahir;
     }
 

@@ -54,16 +54,59 @@ public class Main {
         
         switch (pilihan) {
             case 1:
-                Pelamar pelamar = new Pelamar();
-                System.out.println("Masukkan nama pelamar:");
-                pelamar.setNama(scanner.nextLine());
+                // Membuat objek Scanner untuk membaca input
+                Scanner scanner = new Scanner(System.in);
+
+                // Mengambil input dari pengguna untuk masing-masing parameter
+                System.out.print("Masukkan Username: ");
+                String usernamePelamar = scanner.nextLine();
+
+                System.out.print("Masukkan Password: ");
+                String passwordPelamar = scanner.nextLine();
+
+                System.out.print("Masukkan Nama: ");
+                String namaPelamar = scanner.nextLine();
+
+                System.out.print("Masukkan NIK: ");
+                int nik = scanner.nextInt();
+
+                System.out.print("Masukkan Umur: ");
+                int umur = scanner.nextInt();
+
+                System.out.print("Masukkan No. HP: ");
+                int noHp = scanner.nextInt();
+
+                System.out.print("Masukkan Tanggal Lahir (format: YYYY-MM-DD): ");
+                String tglLahir = scanner.nextLine(); // bisa diproses menjadi objek Date nanti jika diperlukan
+
+                // Membuat objek Pelamar dengan data yang diinputkan
+                Pelamar pelamar = new Pelamar(namaPelamar,umur,nik, noHp, tglLahir, 000001, 100001, usernamePelamar,  passwordPelamar, 20, 100);
+                
+                
                 daftarPelamar.add(pelamar);
                 System.out.println("Akun pelamar berhasil dibuat!");
                 break;
             case 2:
-                AdminPerusahaan admin = new AdminPerusahaan();
-                System.out.println("Masukkan nama perusahaan:");
-                admin.setNama(scanner.nextLine());
+                
+                // Mengambil input dari pengguna untuk masing-masing parameter
+                System.out.print("Masukkan Username: ");
+                String usernamePerusahaan = scanner.nextLine();
+
+                System.out.print("Masukkan Password: ");
+                String passwordPerusahaan = scanner.nextLine();
+
+                System.out.print("Masukkan Nama Perusahaan: ");
+                String namaPerusahaan = scanner.nextLine();
+
+                System.out.print("Masukkan Bidang Perusahaan: ");
+                int bidang = scanner.nextInt();
+
+                System.out.print("Masukkan Umur: ");
+                int jumlahKaryawan = scanner.nextInt();
+
+                
+                
+                AdminPerusahaan admin = new AdminPerusahaan(200001, jumlahKaryawan,  bidang, 100001, usernamePerusahaan,  passwordPerusahaan,200, 15);
                 daftarAdminPerusahaan.add(admin);
                 System.out.println("Akun Admin Perusahaan berhasil dibuat!");
                 break;
@@ -124,7 +167,7 @@ public class Main {
 
     public static AdminPerusahaan cariAdminPerusahaan(String nama) {
         for (AdminPerusahaan admin : daftarAdminPerusahaan) {
-            if (admin.getNama().equalsIgnoreCase(nama)) {
+            if (admin.getNamaPT().equalsIgnoreCase(nama)) {
                 return admin;
             }
         }
