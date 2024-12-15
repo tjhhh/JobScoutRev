@@ -233,5 +233,4 @@ public class Pelamar extends Pengguna {
             System.out.println("Anda tidak memenuhi persyaratan atau memilih untuk tidak melamar.");
         }
     }
-
 }

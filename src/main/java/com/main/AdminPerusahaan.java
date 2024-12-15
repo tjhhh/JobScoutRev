@@ -4,16 +4,20 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Date;
 
-public class AdminPerusahaan extends Pengguna{
+public class AdminPerusahaan extends Pengguna {
     private int idPerusahaan;
     private int jumlahKaryawan;
     private String bidang;
+    private ArrayList<Lowongan> daftarLowongan;
+    private ArrayList<Event> daftarEvent;
 
     public AdminPerusahaan(int idPerusahaan, int jumlahKaryawan, String bidang, int idPengguna, String username, String password, int follower, int following) {
         super(idPengguna, username, password, follower, following);
         this.idPerusahaan = idPerusahaan;
         this.jumlahKaryawan = jumlahKaryawan;
         this.bidang = bidang;
+        this.daftarLowongan = new ArrayList<>();
+        this.daftarEvent = new ArrayList<>();
     }
 
     public int getIdPerusahaan() {
@@ -39,7 +43,11 @@ public class AdminPerusahaan extends Pengguna{
     public void setBidang(String bidang) {
         this.bidang = bidang;
     }
-    
+
+    public ArrayList<Lowongan> getDaftarLowongan() {
+        return daftarLowongan;
+    }
+
     // Method untuk membuat lowongan pekerjaan
     public void createLowongan(ArrayList<Lowongan> daftarLowongan) {
         try (Scanner scanner = new Scanner(System.in)) {
@@ -165,6 +173,4 @@ public class AdminPerusahaan extends Pengguna{
             System.out.println("Terjadi kesalahan input: " + e.getMessage());
         }
     }
-
-
 }
