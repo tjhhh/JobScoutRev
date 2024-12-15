@@ -59,146 +59,107 @@ public class Pelamar extends Pengguna {
     }
 
     // Menambahkan resume baru
-    public void addResume() {
+    public void buatResume() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Masukkan ID Dokumen: ");
-        int idDokumen = scanner.nextInt();
-        scanner.nextLine(); // Menangani nextLine setelah nextInt
+        while (true) {
+            System.out.println("\n=== Menu ===");
+            System.out.println("1. Tambahkan Resume");
+            System.out.println("2. Hapus Resume");
+            System.out.println("3. Lihat Semua Resume");
+            System.out.println("4. Keluar");
+            System.out.print("Pilih opsi: ");
+            int pilihan = scanner.nextInt();
+            scanner.nextLine(); // Konsumsi newline
 
-        // Input Skill
-        System.out.println("Masukkan Skill: ");
-        String skillName = scanner.nextLine();
-        System.out.println("Masukkan Tingkatan Skill: ");
-        String tingkatanLevel = scanner.nextLine();
-        Skill skill = new Skill(skillName, tingkatanLevel);
+            switch (pilihan) {
+                case 1:
+                    // Input data untuk Resume baru
+                    System.out.print("Masukkan ID Dokumen: ");
+                    int idDokumen = scanner.nextInt();
+                    scanner.nextLine();
 
-        // Input Pendidikan
-        System.out.println("Masukkan Nama Sekolah: ");
-        String school = scanner.nextLine();
-        System.out.println("Masukkan Gelar: ");
-        String degree = scanner.nextLine();
-        System.out.println("Masukkan Jurusan: ");
-        String fieldOfStudy = scanner.nextLine();
-        System.out.println("Masukkan Tanggal Mulai (yyyy-mm-dd): ");
-        String startDate = scanner.nextLine();
-        System.out.println("Masukkan Tanggal Selesai (yyyy-mm-dd): ");
-        String endDate = scanner.nextLine();
-        Pendidikan pendidikan = new Pendidikan(school, degree, fieldOfStudy, startDate, endDate);
+                    System.out.println("\n===== Skill =====");
+                    System.out.print("Masukkan Nama Skill: ");
+                    String skillName = scanner.nextLine();
+                    System.out.print("Masukkan Tingkatan Skill: ");
+                    String tingkatanLevel = scanner.nextLine();
+                    Skill skill = new Skill(skillName, tingkatanLevel);
 
-        // Input Pengalaman
-        System.out.println("Masukkan Posisi: ");
-        String position = scanner.nextLine();
-        System.out.println("Masukkan Nama Perusahaan: ");
-        String company = scanner.nextLine();
-        System.out.println("Masukkan Tanggal Mulai (yyyy-mm-dd): ");
-        String expStartDate = scanner.nextLine();
-        System.out.println("Masukkan Tanggal Selesai (yyyy-mm-dd): ");
-        String expEndDate = scanner.nextLine();
-        System.out.println("Masukkan Deskripsi Pengalaman: ");
-        String description = scanner.nextLine();
-        Pengalaman pengalaman = new Pengalaman(position, company, expStartDate, expEndDate, description);
+                    System.out.println("\n=====Pendidikan=====");
+                    System.out.print("Masukkan Nama Universitas: ");
+                    String school = scanner.nextLine();
+                    System.out.print("Masukkan Gelar: ");
+                    String degree = scanner.nextLine();
+                    System.out.print("Masukkan Jurusan: ");
+                    String fieldOfStudy = scanner.nextLine();
+                    System.out.print("Masukkan Tanggal Mulai: ");
+                    String startDate = scanner.nextLine();
+                    System.out.print("Masukkan Tanggal Selesai: ");
+                    String endDate = scanner.nextLine();
+                    Pendidikan pendidikan = new Pendidikan(school, degree, fieldOfStudy, startDate, endDate);
 
-        // Membuat resume dan menambahkannya ke daftar
-        Resume resume = new Resume(idDokumen, skill, pendidikan, pengalaman);
+                    System.out.println("\n===== Pengalaman =====");
+                    System.out.print("Masukkan Posisi Jabatan: ");
+                    String position = scanner.nextLine();
+                    System.out.print("Masukkan Nama Perusahaan: ");
+                    String company = scanner.nextLine();
+                    System.out.print("Masukkan Tanggal Mulai: ");
+                    String pengalamanStartDate = scanner.nextLine();
+                    System.out.print("Masukkan Tanggal Selesai: ");
+                    String pengalamanEndDate = scanner.nextLine();
+                    System.out.print("Masukkan Deskripsi Pekerjaan: ");
+                    String description = scanner.nextLine();
+                    Pengalaman pengalaman = new Pengalaman(position, company, pengalamanStartDate, pengalamanEndDate, description);
+
+                    Resume resume = new Resume(idDokumen, skill, pendidikan, pengalaman);
+                    addResume(resume);
+                    System.out.println("Resume berhasil ditambahkan!");
+                    break;
+
+                case 2:
+                    System.out.print("Masukkan ID Dokumen yang ingin dihapus: ");
+                    int idHapus = scanner.nextInt();
+                    removeResume(idHapus);
+                    System.out.println("Resume berhasil dihapus!");
+                    break;
+
+                case 3:
+                    listResumes();
+                    break;
+
+                case 4:
+                    System.out.println("Keluar program.");
+                    scanner.close();
+                    return;
+
+                default:
+                    System.out.println("Pilihan tidak valid.");
+            }
+        }
+    }
+
+    // Menambahkan resume baru
+    public void addResume(Resume resume) {
         daftarResume.add(resume);
-
-        System.out.println("Resume berhasil ditambahkan!");
     }
 
     // Mengubah informasi resume
-    public void editResume(int idDokumen) {
-        Scanner scanner = new Scanner(System.in);
-        Resume resumeToEdit = null;
-        boolean resumeFound = false;
-    
-        // Mencari resume berdasarkan ID
-        for (Resume resume : daftarResume) {
-            if (resume.getIdDokumen() == idDokumen) {
-                resumeToEdit = resume;
-                resumeFound = true;
-                // Set flag ke true jika resume ditemukan
-            }
-        }
-    
-        // Mengecek apakah resume ditemukan atau tidak
-        if (resumeFound) {
-            // Proses pengeditan
-            System.out.println("Resume ditemukan. Silakan lakukan perubahan:");
-    
-            // Edit Pendidikan
-            System.out.println("Masukkan informasi pendidikan baru:");
-            System.out.println("Sekolah: ");
-            String school = scanner.nextLine();
-            System.out.println("Gelar: ");
-            String degree = scanner.nextLine();
-            System.out.println("Bidang Studi: ");
-            String fieldOfStudy = scanner.nextLine();
-            System.out.println("Tanggal Mulai (format: YYYY-MM-DD): ");
-            String startDate = scanner.nextLine();
-            System.out.println("Tanggal Selesai (format: YYYY-MM-DD): ");
-            String endDate = scanner.nextLine();
-    
-            Pendidikan newPendidikan = new Pendidikan(school, degree, fieldOfStudy, startDate, endDate);
-            resumeToEdit.getEducation().setPendidikan(newPendidikan);  // Update pendidikan
-    
-            // Edit Skill
-            System.out.println("Masukkan informasi skill baru:");
-            System.out.println("Nama Skill: ");
-            String skillName = scanner.nextLine();
-            System.out.println("Tingkatan Level (misal: Beginner, Intermediate, Expert): ");
-            String level = scanner.nextLine();
-    
-            Skill newSkill = new Skill(skillName, level);
-            resumeToEdit.getSkillDetail().setSkill(newSkill);  // Update skill
-    
-            // Edit Pengalaman
-            System.out.println("Masukkan informasi pengalaman baru:");
-            System.out.println("Posisi: ");
-            String position = scanner.nextLine();
-            System.out.println("Perusahaan: ");
-            String company = scanner.nextLine();
-            System.out.println("Tanggal Mulai (format: YYYY-MM-DD): ");
-            String startExp = scanner.nextLine();
-            System.out.println("Tanggal Selesai (format: YYYY-MM-DD): ");
-            String endExp = scanner.nextLine();
-            System.out.println("Deskripsi Pekerjaan: ");
-            String description = scanner.nextLine();
-    
-            Pengalaman newPengalaman = new Pengalaman(position, company, startExp, endExp, description);
-            resumeToEdit.getPengalamanLengkap().setPengalaman(newPengalaman);  // Update pengalaman
-    
-            System.out.println("Resume berhasil diperbarui!");
-        } else {
-            System.out.println("Resume dengan ID " + idDokumen + " tidak ditemukan.");
-        }
+    public boolean removeResume(int idDokumen) {
+        return daftarResume.removeIf(resume -> resume.getIdDokumen() == idDokumen);
     }
     
-
-    // Menghapus resume berdasarkan ID Dokumen
-    public void deleteResume(int idDokumen) {
-        boolean found = false;
-    
-        // Mencari dan menghapus resume berdasarkan ID
+    public void editResume(int idDokumen, Resume updatedResume) {
         for (int i = 0; i < daftarResume.size(); i++) {
             if (daftarResume.get(i).getIdDokumen() == idDokumen) {
-                daftarResume.remove(i);
-                found = true;
-                // Setel flag true jika resume ditemukan dan dihapus
+                daftarResume.set(i, updatedResume);
+                return;
             }
-        }
-    
-        // Setelah loop selesai, cek apakah resume ditemukan
-        if (found) {
-            System.out.println("Resume dengan ID " + idDokumen + " berhasil dihapus!");
-        } else {
-            System.out.println("Resume dengan ID tersebut tidak ditemukan!");
         }
     }
     
 
-    // Menampilkan semua resume pelamar
-    public void showResumes() {
+    public void listResumes() {
         if (daftarResume.isEmpty()) {
             System.out.println("Tidak ada resume yang tersedia.");
         } else {
